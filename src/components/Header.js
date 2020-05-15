@@ -210,7 +210,10 @@ const Header = withRouter(({ history, user, signout }) => {
                 <span>카테고리</span>
               </div>
               <Menu ref={$menu}>
-                <CategoriesContainer menu={$menu} size={size} />
+                <CategoriesContainer
+                  menu={$menu}
+                  // size={size}
+                />
               </Menu>
             </Col>
 

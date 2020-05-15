@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -51,24 +51,13 @@ const CategoriesBlock = styled.div`
 `;
 
 const Categories = ({
-  menu,
-  categories,
-  getCategories,
   error,
+  categories,
   activeId,
-  activateId,
-  deactivateId,
-  selectCategory,
+  onCategoryEnter,
+  onCategoryLeave,
+  onCategoryClick,
 }) => {
-  useEffect(() => {
-    if (categories?.length === 0) getCategories();
-  }, [categories, categories.length, getCategories]);
-
-  const onCategotyClick = (id, name) => {
-    menu.current.style.display = 'none';
-    selectCategory(id, name);
-  };
-
   return (
     <CategoriesBlock>
       <ul>
@@ -77,18 +66,12 @@ const Categories = ({
               <li
                 className="category"
                 key={cat.id}
-                onMouseEnter={e => {
-                  e.persist();
-                  activateId(cat.id);
-                }}
-                onMouseLeave={e => {
-                  e.persist();
-                  deactivateId();
-                }}
+                onMouseEnter={e => onCategoryEnter(e, cat.id)}
+                onMouseLeave={onCategoryLeave}
               >
                 <Link
                   to={`/categories/${cat.name}?order=bidCount,desc`}
-                  onClick={() => onCategotyClick(cat.id, cat.name)}
+                  onClick={() => onCategoryClick(cat.id, cat.name)}
                 >
                   {/* <FaHeart
                     className="category-icon"
@@ -107,7 +90,7 @@ const Categories = ({
                     <li className="sub-category" key={subCat.id}>
                       <Link
                         to={`/categories/${subCat.name}?order=bidCount,desc`}
-                        onClick={() => onCategotyClick(subCat.id, subCat.name)}
+                        onClick={() => onCategoryClick(subCat.id, subCat.name)}
                       >
                         {subCat.name}
                       </Link>
